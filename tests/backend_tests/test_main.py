@@ -1,0 +1,22 @@
+from fastapi.testclient import TestClient
+
+from backend.main import app
+
+
+client = TestClient(app)
+
+
+def test_root_returns_message():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "message": "Warsaw Beauty Salon Explorer API"
+    }
+
+
+def test_health_check():
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
