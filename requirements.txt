@@ -1,9 +1,4 @@
-requests
-beautifulsoup4
-playwright
-pytest
+fastapi
 supabase
 python-dotenv
-fastapi
-uvicorn
-httpx
+pydantic

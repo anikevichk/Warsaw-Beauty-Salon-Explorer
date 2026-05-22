@@ -1,6 +1,11 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/**/*.py": {
+      "excludeFiles": "{scraper/**,tests/**,__tests__/**,**/*.test.py,**/test_*.py,*.json,*.csv}"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/:path*",
