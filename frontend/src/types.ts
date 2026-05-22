@@ -1,3 +1,9 @@
+export type SortBy =
+  | 'rating_desc'
+  | 'reviews_desc'
+  | 'price_asc'
+  | 'price_desc'
+
 export type SalonListItem = {
   id: string
   name: string
@@ -9,7 +15,7 @@ export type SalonListItem = {
   price_max: number | null
   average_price: number | null
   currency: string | null
-  services: string[] | null
+  services?: string[] | string | null
 }
 
 export type SalonDetails = SalonListItem & {
@@ -18,8 +24,6 @@ export type SalonDetails = SalonListItem & {
   instagram: string | null
   facebook: string | null
   website: string | null
-  services: string[] | null
-  average_price: number | null
   source_url: string | null
 }
 
