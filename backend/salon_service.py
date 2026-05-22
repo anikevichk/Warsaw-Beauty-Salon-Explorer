@@ -15,6 +15,7 @@ reviews_count,
 price_range,
 price_min,
 price_max,
+average_price,
 currency
 """
 
