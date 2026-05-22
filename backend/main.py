@@ -9,7 +9,7 @@ app = FastAPI(title="Warsaw Beauty Salon Explorer API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # потом заменишь на URL фронта
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
