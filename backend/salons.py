@@ -18,7 +18,7 @@ def list_salons(
     district: Optional[str] = Query(default=None),
     service: Optional[str] = Query(default=None),
     search: Optional[str] = Query(default=None),
-    limit: int = Query(default=50, ge=1, le=100),
+    limit: int = Query(default=20, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
 ):
     return get_salons(
@@ -38,4 +38,5 @@ def get_salon(salon_id: str):
 @router.put("/{salon_id}")
 def edit_salon(salon_id: str, salon: SalonUpdate):
     update_data = salon.model_dump(exclude_unset=True)
+
     return update_salon(salon_id, update_data)

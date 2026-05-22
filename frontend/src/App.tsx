@@ -5,8 +5,7 @@ import { SalonCard } from './components/SalonCard'
 import { SalonDetails } from './components/SalonDetails'
 import type { SalonDetails as SalonDetailsType, SalonListItem, SortBy } from './types'
 import { emptyForm, toForm, toUpdatePayload } from './utils/form'
-import { fuzzyMatch } from './utils/search'
-import { getErrorMessage, getMatchingServices, getUniqueDistricts } from './utils/salon'
+import { getErrorMessage, getUniqueDistricts } from './utils/salon'
 
 export default function App() {
   const [salons, setSalons] = useState<SalonListItem[]>([])
@@ -35,6 +34,7 @@ export default function App() {
       const data = await getSalons({
         search,
         district,
+        service,
         limit: 100,
         offset: 0
       })
@@ -108,8 +108,7 @@ export default function App() {
                 price_min: updated.price_min,
                 price_max: updated.price_max,
                 average_price: updated.average_price,
-                currency: updated.currency,
-                services: updated.services
+                currency: updated.currency
               }
             : item
         )
@@ -134,21 +133,10 @@ export default function App() {
     }, 400)
 
     return () => clearTimeout(timeout)
-  }, [search, district])
-
-  const filteredSalons = useMemo(() => {
-    return salons.filter((salon) => {
-      const matchesName = fuzzyMatch(salon.name, search)
-      const matchesService = service.trim()
-        ? getMatchingServices(salon, service).length > 0
-        : true
-
-      return matchesName && matchesService
-    })
-  }, [salons, search, service])
+  }, [search, district, service])
 
   const sortedSalons = useMemo(() => {
-    const copy = [...filteredSalons]
+    const copy = [...salons]
 
     if (sortBy === 'rating_desc') {
       return copy.sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1))
@@ -177,7 +165,7 @@ export default function App() {
     }
 
     return copy
-  }, [filteredSalons, sortBy])
+  }, [salons, sortBy])
 
   return (
     <main className="app">
@@ -221,7 +209,7 @@ export default function App() {
               key={salon.id}
               salon={salon}
               selectedSalonId={selectedSalon?.id ?? null}
-              service={service}
+              service=""
               onOpen={openSalon}
             />
           ))}

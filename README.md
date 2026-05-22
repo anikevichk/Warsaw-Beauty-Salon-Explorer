@@ -41,15 +41,17 @@ The frontend and FastAPI backend are deployed in a single Vercel project. Supaba
 
 ```text
 Warsaw-Beauty-Salon-Explorer/
-├── api/                    # Vercel entry point for the FastAPI backend
-├── backend/                # FastAPI application, API routes, schemas and Supabase logic
-├── frontend/               # React + TypeScript user interface
-├── scraper/                # Python scraper for collecting salon data from Booksy
-├── tests/                  # Backend, frontend and scraper tests
-├── README.md               # Project documentation
-├── package.json            # Root build script for Vercel frontend deployment
-├── requirements.txt        # Python dependencies 
-└── vercel.json             # Vercel deployment configuration
+├── .github/              # GitHub Actions workflows
+├── api/                  # Vercel entry point for the FastAPI backend
+├── backend/              # FastAPI backend, API routes, schemas and Supabase logic
+├── frontend/             # React + TypeScript frontend
+├── scraper/              # Python scraper and collected salon data
+├── tests/                # backend, frontend and scraper tests
+├── .gitignore            # files ignored by Git
+├── package.json          # root build script for Vercel deployment
+├── README.md             # project documentation
+├── requirements.txt      # Python dependencies
+└── vercel.json           # Vercel deployment configuration
 ```
 
 ---
@@ -107,12 +109,14 @@ Phone numbers are only available when the scraper is connected to a logged-in Bo
 
 ```text
 scraper/
-├── config.py       # scraper settings: URLs, limits, headers
-├── utils.py        # shared helper functions
-├── search.py       # collects salon profile links
-├── parsers.py      # parses salon data from profile pages
-├── contacts.py     # extracts phone and social links using Playwright
-└── main.py         # main scraper entry point
+├── config.py             # scraper settings
+├── contacts.py           # extracts phone numbers and social links
+├── main.py               # main scraper entry point
+├── parsers.py            # parses salon profile data
+├── requirements.txt      # scraper-specific Python dependencies
+├── salons.json           # collected salon data
+├── search.py             # collects salon profile links
+└── utils.py              # shared helper functions
 ```
 
 ### Scraper configuration
@@ -160,13 +164,13 @@ The backend uses Supabase PostgreSQL as the database. Salon data is uploaded fro
 
 ```text
 backend/
-├── scripts/upload_to_supabase.py
-├── config.py            # environment variables and settings
-├── supabase_client.py   # Supabase client initialization
-├── salon.py             # Pydantic schemas
-├── salon_service.py     # salon business logic
-├── salons.py            # API routes
-└── main.py              # FastAPI app entry point
+├── scripts/              # helper script (Supabase upload)
+├── config.py             # backend settings and environment variables
+├── main.py               # FastAPI application entry point
+├── salon.py              # Pydantic schemas for salon data
+├── salon_service.py      # salon data logic and Supabase queries
+├── salons.py             # API routes
+└── supabase_client.py    # Supabase client initialization
 ```
 
 ### API endpoints
@@ -249,16 +253,22 @@ The frontend allows users to browse salons, filter them, open full salon details
 
 ```text
 frontend/
+├── public/
+│   └── icons/            # public icons for Booksy, Facebook, Instagram and website links
 ├── src/
-│   ├── api/          # API requests to backend
-│   ├── components/   # reusable UI components
-│   ├── utils/        # helper functions
-│   ├── App.tsx       # main application component
-│   ├── main.tsx      # React entry point
-│   ├── styles.css    # application styles
-│   └── types.ts      # shared frontend types
-├── package.json
-└── vite.config.ts
+│   ├── api/              # API requests to the backend
+│   ├── components/       # reusable React components
+│   ├── test/             # frontend test setup or test helpers
+│   ├── utils/            # helper functions
+│   ├── App.tsx           # main application component
+│   ├── main.tsx          # React entry point
+│   ├── styles.css        # application styles
+│   └── types.ts          # shared frontend types
+├── index.html            # HTML entry point
+├── package-lock.json     # npm dependency lock file
+├── package.json          # frontend dependencies and scripts
+├── tsconfig.json         # TypeScript configuration
+└── vite.config.ts        # Vite configuration
 ```
 
 ---
@@ -344,7 +354,6 @@ python3 -m playwright install chromium
 Run the scraper:
 
 ```bash
-cd scraper
 python3 main.py
 ```
 
@@ -380,7 +389,7 @@ If the logged-in session is available, the scraper will use it to collect phone 
 Salon data can be uploaded to Supabase with:
 
 ```bash
-python3 scripts/upload_to_supabase.py
+python3 backend/scripts/upload_to_supabase.py
 ```
 
 The script reads data from:
@@ -414,27 +423,23 @@ Tests are located in:
 
 ```text
 tests/
-├── backend/
-├── frontend/
-└── scraper/
+├── backend_tests/
+├── frontend_tests/
+├── scraper_tests/
+└── conftest.py
 ```
 
-Run all tests from the project root:
+Run backend and scraper tests:
 
 ```bash
 pytest -v
 ```
 
-Run only backend tests:
+Run frontend tests:
 
 ```bash
-pytest tests/backend -v
-```
-
-Run only scraper tests:
-
-```bash
-pytest tests/scraper -v
+cd frontend
+npm test
 ```
 
 Backend tests use mocked Supabase data, so they do not modify the real database.
