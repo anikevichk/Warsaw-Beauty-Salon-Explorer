@@ -44,7 +44,7 @@ export function getSalons(params: {
       search: params.search,
       district: params.district,
       service: params.service,
-      limit: params.limit ?? 100,
+      limit: params.limit ?? 300,
       offset: params.offset ?? 0
     })
   )

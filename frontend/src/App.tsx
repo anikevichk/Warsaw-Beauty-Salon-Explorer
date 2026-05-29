@@ -35,7 +35,7 @@ export default function App() {
         search,
         district,
         service,
-        limit: 100,
+        limit: 300,
         offset: 0
       })
 
@@ -53,7 +53,7 @@ export default function App() {
   async function loadDistricts() {
     try {
       const data = await getSalons({
-        limit: 100,
+        limit: 300,
         offset: 0
       })
 
@@ -209,7 +209,7 @@ export default function App() {
               key={salon.id}
               salon={salon}
               selectedSalonId={selectedSalon?.id ?? null}
-              service=""
+              service={service}
               onOpen={openSalon}
             />
           ))}

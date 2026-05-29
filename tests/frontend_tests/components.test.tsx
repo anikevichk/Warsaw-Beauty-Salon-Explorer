@@ -134,8 +134,6 @@ describe('components', () => {
     expect(screen.getByText('★ 4.8')).toBeInTheDocument()
     expect(screen.getByText('Wola')).toBeInTheDocument()
     expect(screen.getByText(/120 reviews/i)).toBeInTheDocument()
-    expect(screen.getByText('Matching services')).toBeInTheDocument()
-    expect(screen.getByText('Manicure')).toBeInTheDocument()
 
     fireEvent.click(screen.getByText('Glow Beauty'))
     expect(onOpen).toHaveBeenCalledWith('1')

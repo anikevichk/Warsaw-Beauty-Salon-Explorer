@@ -18,7 +18,7 @@ def list_salons(
     district: Optional[str] = Query(default=None),
     service: Optional[str] = Query(default=None),
     search: Optional[str] = Query(default=None),
-    limit: int = Query(default=20, ge=1, le=100),
+    limit: int = Query(default=20, ge=1, le=500),
     offset: int = Query(default=0, ge=0),
 ):
     return get_salons(

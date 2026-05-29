@@ -1,21 +1,17 @@
 import type { SalonListItem } from '../types'
-import { formatSalonPrice, getMatchingServices } from '../utils/salon'
+import { formatSalonPrice } from '../utils/salon'
 
 type Props = {
   salon: SalonListItem
   selectedSalonId: string | null
-  service: string
   onOpen: (id: string) => void
 }
 
 export function SalonCard({
   salon,
   selectedSalonId,
-  service,
   onOpen
 }: Props) {
-  const matchingServices = getMatchingServices(salon, service)
-
   return (
     <button
       className={`salon-card ${selectedSalonId === salon.id ? 'active' : ''}`}
@@ -32,18 +28,6 @@ export function SalonCard({
         <span>{formatSalonPrice(salon)}</span>
         <span>{salon.reviews_count ?? 0} reviews</span>
       </div>
-
-      {service.trim() && matchingServices.length > 0 && (
-        <div className="matched-services">
-          <p>Matching services</p>
-
-          {matchingServices.slice(0, 4).map((item, index) => (
-            <div className="matched-service" key={`${item}-${index}`}>
-              <span>{item}</span>
-            </div>
-          ))}
-        </div>
-      )}
     </button>
   )
 }

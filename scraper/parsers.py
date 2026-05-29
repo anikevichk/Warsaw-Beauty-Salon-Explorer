@@ -54,17 +54,21 @@ def extract_services(soup: BeautifulSoup) -> list[str]:
 
 
 def extract_prices(text: str) -> list[float]:
-    prices = re.findall(r"(\d[\d\s]*,\d{2})\s*zł", text)
+    pattern = r"(?<!\d)((?:\d{1,3}(?:\s\d{3})+|\d{1,5})(?:,\d{2})?)\s*zł"
 
     values = []
 
-    for price in prices:
-        normalized = price.replace(" ", "").replace(",", ".")
+    for match in re.finditer(pattern, text):
+        raw_price = match.group(1)
+        normalized = raw_price.replace(" ", "").replace(",", ".")
 
         try:
-            values.append(float(normalized))
+            value = float(normalized)
         except ValueError:
-            pass
+            continue
+
+        if 0 < value <= 5000:
+            values.append(value)
 
     return values
 

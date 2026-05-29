@@ -27,6 +27,14 @@ describe('map utils', () => {
     )
   })
 
+  it('cleans address with access instructions', () => {
+    expect(
+      cleanAddressForMap(
+        'Flory 7, 1 klucz 6569 i pierwsze drzwi na prawo, 00-586, Warszawa, Śródmieście'
+      )
+    ).toBe('Flory 7, 00-586 Warszawa')
+  })
+
   it('returns encoded Google Maps embed url', () => {
     expect(getMapUrl('Prosta 10 lok. 5 Warszawa')).toBe(
       'https://maps.google.com/maps?q=Prosta%2010%20Warszawa&z=15&output=embed'

@@ -1,5 +1,4 @@
 import type { SalonListItem } from '../types'
-import { fuzzyMatch } from './search'
 
 export function getServicesArray(salon: SalonListItem): string[] {
   const services = salon.services
@@ -14,14 +13,6 @@ export function getServicesArray(salon: SalonListItem): string[] {
     .split(/[,;]/)
     .map((item) => item.trim())
     .filter(Boolean)
-}
-
-export function getMatchingServices(salon: SalonListItem, query: string) {
-  if (!query.trim()) return []
-
-  return getServicesArray(salon).filter((serviceName) =>
-    fuzzyMatch(serviceName, query)
-  )
 }
 
 export function formatSalonPrice(salon: SalonListItem) {

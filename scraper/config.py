@@ -5,8 +5,8 @@ SEARCH_URLS = [
     "https://booksy.com/pl-pl/s/salon-kosmetyczny/3_warszawa",
 ]
 
-PAGES_PER_CATEGORY = 1
-TARGET_SALONS = 1
+PAGES_PER_CATEGORY = 4
+TARGET_SALONS = 130
 
 HEADERS = {
     "User-Agent": (
